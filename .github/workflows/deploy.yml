@@ -39,6 +39,12 @@ jobs:
       - name: Mirror Vite build into repository root
         run: cp -R dist/. .
 
+      - name: Remove generated folders from repository history
+        run: rm -rf node_modules dist
+
+      - name: Ensure static Pages mode
+        run: touch .nojekyll
+
       - name: Publish built site files to main
         run: |
           git config user.name "github-actions[bot]"
