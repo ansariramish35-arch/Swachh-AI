@@ -39,11 +39,19 @@ jobs:
       - name: Mirror Vite build into repository root
         run: cp -R dist/. .
 
-      - name: Remove generated folders from repository history
-        run: rm -rf node_modules dist
-
       - name: Ensure static Pages mode
         run: touch .nojekyll
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload build output
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+      - name: Remove generated folders from repository history
+        run: rm -rf node_modules dist
 
       - name: Publish built site files to main
         run: |
@@ -56,14 +64,6 @@ jobs:
             git commit -m "Publish built site for GitHub Pages"
             git push
           fi
-
-      - name: Configure Pages
-        uses: actions/configure-pages@v5
-
-      - name: Upload build output
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: dist
 
   deploy:
     needs: build
