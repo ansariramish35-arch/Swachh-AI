@@ -56,7 +56,7 @@ body {
   background: var(--color-ink);
   color: var(--color-mist);
   font-family: var(--font-display);
-  overflow-x: clip;
+  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -256,5 +256,25 @@ input[type="range"]::-moz-range-thumb {
     width: 100% !important;
     max-width: 520px !important;
     margin-inline: auto !important;
+  }
+}
+
+
+/* emergency viewport normalization */
+html, body, #root {
+  width: 100% !important;
+  min-width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+#root, #root > div {
+  width: 100% !important;
+  min-width: 0 !important;
+}
+@media (max-width: 1279px), (orientation: portrait) {
+  #top, #top > div, #top .max-w-7xl {
+    width: 100% !important;
+    max-width: none !important;
   }
 }
