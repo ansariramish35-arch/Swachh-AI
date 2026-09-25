@@ -41,9 +41,9 @@ export default function Hero() {
       <div className="dotgrid absolute inset-0 opacity-60 [mask-image:radial-gradient(ellipse_75%_65%_at_50%_35%,black,transparent)]" />
 
       <div className="relative mx-auto max-w-7xl px-5 md:px-8 pt-28 md:pt-36 pb-10 md:pb-16">
-        <div className="grid lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+        <div className="hero-grid grid lg:grid-cols-12 gap-12 lg:gap-8 items-center">
           {/* ------------------------- copy ------------------------- */}
-          <div className="lg:col-span-7">
+          <div className="hero-copy lg:col-span-7">
             <motion.div
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
@@ -150,7 +150,7 @@ export default function Hero() {
           </div>
 
           {/* ------------------------- visual ------------------------- */}
-          <div className="lg:col-span-5 relative">
+          <div className="hero-visual lg:col-span-5 relative">
             <motion.div
               initial={{ opacity: 0, scale: 0.94, y: 30 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
