@@ -227,3 +227,34 @@ input[type="range"]::-moz-range-thumb {
    GitHub Pages serves the app from /Swachh-AI/. Using root-absolute
    asset paths breaks images after deployment; the React source uses
    document-relative paths instead. */
+
+/* Mobile browsers can expose a large CSS viewport when zoomed.
+   Pointer/coarse detection keeps the experience single-column regardless
+   of that reported width. */
+@media (pointer: coarse) {
+  #top .max-w-7xl {
+    width: 100% !important;
+    max-width: none !important;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+
+  #top .max-w-7xl > .grid {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 28px !important;
+    width: 100% !important;
+  }
+
+  #top .max-w-7xl > .grid > div {
+    grid-column: 1 / -1 !important;
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  #top .max-w-7xl > .grid > div:last-child > div {
+    width: 100% !important;
+    max-width: 520px !important;
+    margin-inline: auto !important;
+  }
+}
