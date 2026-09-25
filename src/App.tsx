@@ -1,16 +1,18 @@
+import { lazy, Suspense } from "react";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
-import Problem from "./components/Problem";
-import PhotoBand from "./components/PhotoBand";
-import Classifier from "./components/Classifier";
-import RagChat from "./components/RagChat";
-import ImpactDash from "./components/ImpactDash";
-import Architecture from "./components/Architecture";
-import DesignThinking from "./components/DesignThinking";
-import ResponsibleAI from "./components/ResponsibleAI";
-import ImpactStatement from "./components/ImpactStatement";
-import Footer from "./components/Footer";
 import { FileDown } from "lucide-react";
+
+const Problem = lazy(() => import("./components/Problem"));
+const PhotoBand = lazy(() => import("./components/PhotoBand"));
+const Classifier = lazy(() => import("./components/Classifier"));
+const RagChat = lazy(() => import("./components/RagChat"));
+const ImpactDash = lazy(() => import("./components/ImpactDash"));
+const Architecture = lazy(() => import("./components/Architecture"));
+const DesignThinking = lazy(() => import("./components/DesignThinking"));
+const ResponsibleAI = lazy(() => import("./components/ResponsibleAI"));
+const ImpactStatement = lazy(() => import("./components/ImpactStatement"));
+const Footer = lazy(() => import("./components/Footer"));
 
 function ReportFAB() {
   return (
@@ -34,17 +36,19 @@ export default function App() {
       <Navbar />
       <main>
         <Hero />
-        <Problem />
-        <PhotoBand />
-        <Classifier />
-        <RagChat />
-        <ImpactDash />
-        <Architecture />
-        <DesignThinking />
-        <ResponsibleAI />
-        <ImpactStatement />
+        <Suspense fallback={null}>
+          <Problem />
+          <PhotoBand />
+          <Classifier />
+          <RagChat />
+          <ImpactDash />
+          <Architecture />
+          <DesignThinking />
+          <ResponsibleAI />
+          <ImpactStatement />
+          <Footer />
+        </Suspense>
       </main>
-      <Footer />
       <ReportFAB />
     </div>
   );
