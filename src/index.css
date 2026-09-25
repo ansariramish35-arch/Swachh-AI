@@ -227,43 +227,41 @@ input[type="range"]::-moz-range-thumb {
 }
 
 
-/* Mobile-only hero correction.
-   Desktop/tablet landscape keeps the original lg 12-column design.
-   Phones in portrait/coarse-pointer mode are forced to one column even
-   when a browser reports an unusually wide CSS viewport. */
-@media (pointer: coarse) and (orientation: portrait) {
-  #top .hero-grid {
-    grid-template-columns: minmax(0, 1fr) !important;
-    gap: 28px !important;
-    width: 100% !important;
+/* MOBILE ONLY — desktop styles remain untouched */
+@media screen and (max-width: 767px) {
+  #top > div.max-w-7xl {
+    width: 100%;
+    max-width: 100%;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
   }
 
-  #top .hero-copy,
-  #top .hero-visual {
+  #top > div.max-w-7xl > div.grid {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+  }
+
+  #top > div.max-w-7xl > div.grid > .lg\:col-span-7,
+  #top > div.max-w-7xl > div.grid > .lg\:col-span-5 {
     grid-column: 1 / -1 !important;
     width: 100% !important;
     min-width: 0 !important;
   }
 
-  #top .hero-visual > div {
+  #top > div.max-w-7xl > div.grid > .lg\:col-span-5 > div {
     width: 100% !important;
-    max-width: 520px !important;
-    margin-inline: auto !important;
-  }
-
-  #top .hero-copy .flex {
-    max-width: 100%;
-  }
-}
-
-@media (max-width: 640px) {
-  #top .max-w-7xl {
-    padding-left: 16px !important;
-    padding-right: 16px !important;
+    max-width: 520px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   #top h1 {
+    font-size: clamp(2.25rem, 11vw, 3.8rem) !important;
     max-width: 100%;
     overflow-wrap: anywhere;
+  }
+
+  #top .max-w-xl {
+    max-width: 100% !important;
   }
 }
