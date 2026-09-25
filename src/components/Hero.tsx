@@ -161,7 +161,7 @@ export default function Hero() {
               <div className="relative rounded-[28px] border border-line bg-moss p-2 shadow-[0_40px_120px_-40px_rgba(0,0,0,0.8)]">
                 <div className="relative overflow-hidden rounded-[20px] aspect-[4/5]">
                   <motion.img
-                    src="images/hero-collage.jpg"
+                    src="/Swachh-AI/images/hero-collage.jpg"
                     alt="Recycled objects overgrown with living green vines — waste returning to nature"
                     className="h-full w-full object-cover"
                     style={{ y: imgY, scale: 1.12 }}
