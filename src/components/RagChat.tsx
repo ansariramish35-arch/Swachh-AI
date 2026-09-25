@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   Bot,
@@ -56,27 +56,21 @@ export default function RagChat() {
   ]);
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
-  const busyRef = useRef(busy);
   const timers = useRef<number[]>([]);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => () => timers.current.forEach(clearTimeout), []);
 
   useEffect(() => {
-    busyRef.current = busy;
-  }, [busy]);
-
-  useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [messages]);
 
-  const updateMsg = useCallback((id: number, patch: Partial<Msg>) => {
+  const updateMsg = (id: number, patch: Partial<Msg>) =>
     setMessages((m) => m.map((x) => (x.id === id ? { ...x, ...patch } : x)));
-  }, []);
 
-  const send = useCallback((raw: string) => {
+  const send = (raw: string) => {
     const q = raw.trim();
-    if (!q || busyRef.current) return;
+    if (!q || busy) return;
     setBusy(true);
     setInput("");
     setMessages((m) => [...m, { id: uid++, role: "user", text: q }]);
@@ -116,9 +110,9 @@ export default function RagChat() {
         tick();
       }, 700 + Math.random() * 500)
     );
-  }, [updateMsg]);
+  };
 
-  // classifier handoff — register once with a stable send callback
+  // classifier handoff
   useEffect(() => {
     const h = (e: Event) => {
       const q = (e as CustomEvent<string>).detail;
@@ -126,7 +120,8 @@ export default function RagChat() {
     };
     window.addEventListener("swachh:ask", h);
     return () => window.removeEventListener("swachh:ask", h);
-  }, [send]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [busy]);
 
   const renderBody = (text: string, streaming?: boolean) => (
     <div className={streaming ? "caret" : ""}>
