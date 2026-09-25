@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import {
   Sparkles,
   ScanSearch,
@@ -29,7 +29,6 @@ const SDGS = [
 
 export default function Hero() {
   const ref = useRef<HTMLDivElement>(null);
-  const reducedMotion = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const imgY = useTransform(scrollYProgress, [0, 1], [0, 90]);
   const cardY = useTransform(scrollYProgress, [0, 1], [0, -50]);
@@ -157,27 +156,22 @@ export default function Hero() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
               className="relative"
-              style={{ y: reducedMotion ? 0 : cardY }}
+              style={{ y: cardY }}
             >
               <div className="relative rounded-[28px] border border-line bg-moss p-2 shadow-[0_40px_120px_-40px_rgba(0,0,0,0.8)]">
                 <div className="relative overflow-hidden rounded-[20px] aspect-[4/5]">
                   <motion.img
-                    src="/Swachh-AI/images/hero-collage.jpg"
+                    src="images/hero-collage.jpg"
                     alt="Recycled objects overgrown with living green vines — waste returning to nature"
                     className="h-full w-full object-cover"
-                    width={800}
-                    height={1000}
-                    fetchPriority="high"
-                    decoding="async"
-                    loading="eager"
-                    style={{ y: reducedMotion ? 0 : imgY, scale: 1.12 }}
+                    style={{ y: imgY, scale: 1.12 }}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-ink/85 via-transparent to-ink/20" />
 
                   {/* top-left classification toast */}
                   <motion.div
                     className="absolute left-4 top-4 flex items-center gap-2.5 rounded-2xl border border-mist/15 bg-ink/80 backdrop-blur-md px-3.5 py-2.5"
-                    animate={reducedMotion ? undefined : { y: [0, -8, 0] }}
+                    animate={{ y: [0, -8, 0] }}
                     transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
                   >
                     <CheckCircle2 size={16} className="text-leaf shrink-0" />
@@ -214,7 +208,7 @@ export default function Hero() {
               {/* floating side chip */}
               <motion.div
                 className="absolute -left-6 md:-left-12 top-1/4 hidden sm:flex items-center gap-2 rounded-full border border-line bg-pine/90 backdrop-blur px-4 py-2.5 shadow-xl"
-                animate={reducedMotion ? undefined : { y: [0, 10, 0] }}
+                animate={{ y: [0, 10, 0] }}
                 transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 0.6 }}
               >
                 <Sprout size={15} className="text-emer" />
@@ -225,7 +219,7 @@ export default function Hero() {
 
               <motion.div
                 className="absolute -right-4 md:-right-8 bottom-1/4 hidden sm:flex items-center gap-2 rounded-full border border-line bg-pine/90 backdrop-blur px-4 py-2.5 shadow-xl"
-                animate={reducedMotion ? undefined : { y: [0, -12, 0] }}
+                animate={{ y: [0, -12, 0] }}
                 transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1.2 }}
               >
                 <Activity size={15} className="text-dry" />
