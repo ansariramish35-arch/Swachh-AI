@@ -40,10 +40,10 @@ export default function Hero() {
       <div className="pointer-events-none absolute top-1/3 -right-48 w-[520px] h-[520px] rounded-full bg-emer/10 blur-[150px]" />
       <div className="dotgrid absolute inset-0 opacity-60 [mask-image:radial-gradient(ellipse_75%_65%_at_50%_35%,black,transparent)]" />
 
-      <div className="relative mx-auto max-w-7xl px-5 md:px-8 pt-28 md:pt-36 pb-10 md:pb-16">
-        <div className="grid 2xl:grid-cols-12 gap-12 2xl:gap-8 items-center">
+      <div className="relative mx-auto w-full max-w-7xl px-5 md:px-8 pt-28 md:pt-36 pb-10 md:pb-16">
+        <div className="flex flex-col gap-12 items-stretch w-full">
           {/* ------------------------- copy ------------------------- */}
-          <div className="2xl:col-span-7">
+          <div className="w-full min-w-0">
             <motion.div
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
@@ -150,7 +150,7 @@ export default function Hero() {
           </div>
 
           {/* ------------------------- visual ------------------------- */}
-          <div className="2xl:col-span-5 relative">
+          <div className="relative w-full min-w-0">
             <motion.div
               initial={{ opacity: 0, scale: 0.94, y: 30 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
