@@ -193,7 +193,18 @@ input[type="range"]::-moz-range-thumb {
 }
 
 
-/* MOBILE ONLY — contain the phone layout without changing desktop */
+/* GPU/compositor hints for continuously animated surfaces */
+.grain {
+  will-change: transform;
+}
+
+.marquee-inner {
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Phone-only containment: does not affect desktop layout */
 @media (max-width: 767px) {
   html,
   body,
@@ -207,6 +218,7 @@ input[type="range"]::-moz-range-thumb {
     inset: 0 !important;
     width: 100vw !important;
     height: 100vh !important;
+    overflow: hidden !important;
   }
 
   #top > div.max-w-7xl {
@@ -255,14 +267,18 @@ input[type="range"]::-moz-range-thumb {
     max-width: 100% !important;
   }
 
-  #top > div.border-y {
+  [data-marquee-outer] {
     width: 100% !important;
     max-width: 100vw !important;
     overflow: hidden !important;
   }
+}
 
-  #top > div.border-y > div {
-    max-width: 100vw !important;
-    overflow: hidden !important;
+/* Respect system-level reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .grain,
+  .marquee-inner,
+  .flow-dash {
+    animation: none !important;
   }
 }
