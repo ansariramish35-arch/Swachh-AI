@@ -4,19 +4,19 @@ import { Reveal } from "./ui";
 
 const SHOTS = [
   {
-    src: "https://images.pexels.com/photos/5355590/pexels-photo-5355590.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200",
+    src: "/Swachh-AI/images/hero-collage.jpg",
     alt: "Workers sorting plastic bottles at a recycling facility",
     tag: "Field reality 01",
     caption: "Material recovery — where clean streams become value",
   },
   {
-    src: "https://images.pexels.com/photos/7512889/pexels-photo-7512889.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200",
+    src: "/Swachh-AI/images/hero-collage.jpg",
     alt: "Person sorting household waste with a smartphone",
     tag: "Field reality 02",
     caption: "The 5-second decision SwachhAI is built for",
   },
   {
-    src: "https://images.pexels.com/photos/8018592/pexels-photo-8018592.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200",
+    src: "/Swachh-AI/images/hero-collage.jpg",
     alt: "Volunteers collecting trash on a beach shoreline",
     tag: "Field reality 03",
     caption: "Community clean-ups treat symptoms; sorting prevents them",
