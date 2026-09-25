@@ -37,8 +37,11 @@ export default function PhotoBand() {
                 <motion.img
                   src={s.src}
                   alt={s.alt}
-                  loading="lazy"
                   className="h-full w-full object-cover grayscale-[0.65] group-hover:grayscale-0 transition-all duration-700"
+                  width={600}
+                  height={450}
+                  decoding="async"
+                  loading="lazy"
                   variants={{ hover: { scale: 1.06 } }}
                   transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
                 />
