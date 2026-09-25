@@ -557,7 +557,7 @@ export default function ReportPage() {
                 </p>
               </div>
               <figure className="hidden md:block rounded-md overflow-hidden border" style={{ borderColor: BORDER }}>
-                <img src="images/hero-collage.jpg" alt="Prototype cover visual" className="w-full h-[190px] object-cover" />
+                <img src="/Swachh-AI/images/hero-collage.jpg" alt="Prototype cover visual" className="w-full h-[190px] object-cover" />
                 <figcaption className="px-2.5 py-1.5 font-mono text-[7.5px] tracking-[0.08em] uppercase" style={{ color: MUTED }}>
                   prototype · landing interface art
                 </figcaption>
