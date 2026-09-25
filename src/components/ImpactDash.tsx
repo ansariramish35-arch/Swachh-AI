@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { Recycle, Wind, TreePine, Car, Gauge, PieChart, SlidersHorizontal, Building } from "lucide-react";
 import { computeImpact, fmt, type HouseholdInputs, type PlanFlags } from "../lib/impact";
@@ -9,6 +9,53 @@ const SCALES = [
   { key: "block", label: "Apartment block ×100", mult: 100, icon: null },
   { key: "ward", label: "City ward ×2,000", mult: 2000, icon: Building },
 ];
+
+const W = 620;
+const H = 210;
+const PAD = 8;
+const px = (i: number) => PAD + (i * (W - PAD * 2)) / 11;
+const C = 2 * Math.PI * 42;
+
+const DONUT = [
+  { label: "Organic", pct: 55, color: "#8bd94b" },
+  { label: "Dry recyclable", pct: 25, color: "#62c6ff" },
+  { label: "Reject", pct: 20, color: "#5c6f63" },
+] as const;
+
+const KPIS_CONFIG = [
+  {
+    icon: Recycle,
+    color: "#b8f34d",
+    label: "New diversion / year",
+    key: "deltaDiverted" as const,
+    fmtv: (n: number) => (n >= 1000 ? (n / 1000).toFixed(1) + " t" : fmt(Math.round(n)) + " kg"),
+    sub: "fresh waste kept out of landfill",
+  },
+  {
+    icon: Wind,
+    color: "#62c6ff",
+    label: "CO₂e avoided / year",
+    key: "deltaCO2" as const,
+    fmtv: (n: number) => (n >= 1000 ? (n / 1000).toFixed(1) + " t" : fmt(Math.round(n)) + " kg"),
+    sub: "methane + virgin production avoided",
+  },
+  {
+    icon: TreePine,
+    color: "#57d97b",
+    label: "Tree equivalent",
+    key: "trees" as const,
+    fmtv: (n: number) => fmt(Math.round(n)) + " trees",
+    sub: "absorbing the same CO₂ annually",
+  },
+  {
+    icon: Car,
+    color: "#ffb35c",
+    label: "Driving offset",
+    key: "carKm" as const,
+    fmtv: (n: number) => (n >= 10000 ? fmt(Math.round(n / 1000)) + "k km" : fmt(Math.round(n)) + " km"),
+    sub: "of petrol-car emissions cancelled",
+  },
+] as const;
 
 function Toggle({
   on,
@@ -103,59 +150,33 @@ export default function ImpactDash() {
   const [scale, setScale] = useState(1);
 
   const r = useMemo(() => computeImpact(inp, plan), [inp, plan]);
-  const scaled = (kg: number) => kg * scale;
+  const scaled = useCallback((kg: number) => kg * scale, [scale]);
 
   /* ---------- area chart geometry ---------- */
-  const W = 620, H = 210, PAD = 8;
-  const maxV = Math.max(...r.monthly.map((m) => m.plan), 1);
-  const px = (i: number) => PAD + (i * (W - PAD * 2)) / 11;
-  const py = (v: number) => H - PAD - (v / maxV) * (H - PAD * 2);
-  const linePath = (key: "plan" | "baseline") =>
-    r.monthly.map((m, i) => `${i === 0 ? "M" : "L"}${px(i)},${py(m[key])}`).join(" ");
-  const areaPath = `${linePath("plan")} L${px(11)},${H - PAD} L${px(0)},${H - PAD} Z`;
+  const { py, linePath, areaPath } = useMemo(() => {
+    const maxV = Math.max(...r.monthly.map((m) => m.plan), 1);
+    const pyFn = (v: number) => H - PAD - (v / maxV) * (H - PAD * 2);
+    const makeLinePath = (key: "plan" | "baseline") =>
+      r.monthly.map((m, i) => `${i === 0 ? "M" : "L"}${px(i)},${pyFn(m[key])}`).join(" ");
+    return {
+      py: pyFn,
+      linePath: makeLinePath,
+      areaPath: `${makeLinePath("plan")} L${px(11)},${H - PAD} L${px(0)},${H - PAD} Z`,
+    };
+  }, [r.monthly]);
 
-  /* ---------- donut geometry ---------- */
-  const C = 2 * Math.PI * 42;
-  const DONUT = [
-    { label: "Organic", pct: 55, color: "#8bd94b" },
-    { label: "Dry recyclable", pct: 25, color: "#62c6ff" },
-    { label: "Reject", pct: 20, color: "#5c6f63" },
-  ];
-
-  const KPIS = [
-    {
-      icon: Recycle,
-      color: "#b8f34d",
-      label: "New diversion / year",
-      value: scaled(r.deltaDiverted),
-      fmtv: (n: number) => (n >= 1000 ? (n / 1000).toFixed(1) + " t" : fmt(Math.round(n)) + " kg"),
-      sub: "fresh waste kept out of landfill",
-    },
-    {
-      icon: Wind,
-      color: "#62c6ff",
-      label: "CO₂e avoided / year",
-      value: scaled(r.deltaCO2),
-      fmtv: (n: number) => (n >= 1000 ? (n / 1000).toFixed(1) + " t" : fmt(Math.round(n)) + " kg"),
-      sub: "methane + virgin production avoided",
-    },
-    {
-      icon: TreePine,
-      color: "#57d97b",
-      label: "Tree equivalent",
-      value: scaled(r.trees),
-      fmtv: (n: number) => fmt(Math.round(n)) + " trees",
-      sub: "absorbing the same CO₂ annually",
-    },
-    {
-      icon: Car,
-      color: "#ffb35c",
-      label: "Driving offset",
-      value: scaled(r.carKm),
-      fmtv: (n: number) => (n >= 10000 ? fmt(Math.round(n / 1000)) + "k km" : fmt(Math.round(n)) + " km"),
-      sub: "of petrol-car emissions cancelled",
-    },
-  ];
+  const KPIS = useMemo(
+    () =>
+      KPIS_CONFIG.map((k) => ({
+        icon: k.icon,
+        color: k.color,
+        label: k.label,
+        value: scaled(r[k.key]),
+        fmtv: k.fmtv,
+        sub: k.sub,
+      })),
+    [r, scaled]
+  );
 
   return (
     <section id="impact" className="relative py-24 md:py-36 scroll-mt-20">
