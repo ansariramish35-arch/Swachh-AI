@@ -194,7 +194,7 @@ input[type="range"]::-moz-range-thumb {
 
 
 /* MOBILE ONLY — fix hero width on phones without changing desktop */
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 767px), screen and (hover: none) and (pointer: coarse) and (max-width: 1100px) {
   #top > div.max-w-7xl {
     width: 100% !important;
     max-width: 100% !important;
