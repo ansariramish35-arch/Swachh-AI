@@ -192,22 +192,17 @@ input[type="range"]::-moz-range-thumb {
   }
 }
 
-
-/* ---------------- mobile/tablet hero safety ----------------
-   Keep the hero single-column until xl. Some mobile browsers can
-   report a wider CSS viewport than their physical screen. */
+/* ---------------- responsive layout safety ---------------- */
 @media (max-width: 1279px) {
-  #top > div.max-w-7xl > div {
+  #top .max-w-7xl > .grid {
     grid-template-columns: minmax(0, 1fr) !important;
   }
-
-  #top > div.max-w-7xl > div > div {
+  #top .max-w-7xl > .grid > div {
     grid-column: 1 / -1 !important;
-    min-width: 0 !important;
     width: 100% !important;
+    min-width: 0 !important;
   }
-
-  #top > div.max-w-7xl > div > div + div > div {
+  #top .max-w-7xl > .grid > div:last-child > div {
     width: 100%;
     max-width: 520px;
     margin-inline: auto;
@@ -215,13 +210,20 @@ input[type="range"]::-moz-range-thumb {
 }
 
 @media (max-width: 640px) {
-  #top > div.max-w-7xl {
+  #top .max-w-7xl {
     padding-left: 16px !important;
     padding-right: 16px !important;
   }
-
   #top h1 {
     max-width: 100%;
     overflow-wrap: anywhere;
   }
+  #top .max-w-7xl > .grid {
+    gap: 28px !important;
+  }
 }
+
+/* ---------------- hosted asset safety ----------------
+   GitHub Pages serves the app from /Swachh-AI/. Using root-absolute
+   asset paths breaks images after deployment; the React source uses
+   document-relative paths instead. */
