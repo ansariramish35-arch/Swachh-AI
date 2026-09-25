@@ -56,7 +56,7 @@ body {
   background: var(--color-ink);
   color: var(--color-mist);
   font-family: var(--font-display);
-  overflow-x: hidden;
+  overflow-x: clip;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -192,20 +192,67 @@ input[type="range"]::-moz-range-thumb {
   }
 }
 
-/* ---------------- responsive layout safety ---------------- */
+
+/* ---------------- mobile/tablet hero safety ----------------
+   Keep the hero single-column until xl. Some mobile browsers can
+   report a wider CSS viewport than their physical screen. */
 @media (max-width: 1279px) {
-  #top .max-w-7xl > .grid {
+  #top > div.max-w-7xl > div {
     grid-template-columns: minmax(0, 1fr) !important;
   }
-  #top .max-w-7xl > .grid > div {
+
+  #top > div.max-w-7xl > div > div {
+    grid-column: 1 / -1 !important;
+    min-width: 0 !important;
+    width: 100% !important;
+  }
+
+  #top > div.max-w-7xl > div > div + div > div {
+    width: 100%;
+    max-width: 520px;
+    margin-inline: auto;
+  }
+}
+
+@media (max-width: 640px) {
+  #top > div.max-w-7xl {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+
+  #top h1 {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+}
+
+
+/* Mobile-only hero correction.
+   Desktop/tablet landscape keeps the original lg 12-column design.
+   Phones in portrait/coarse-pointer mode are forced to one column even
+   when a browser reports an unusually wide CSS viewport. */
+@media (pointer: coarse) and (orientation: portrait) {
+  #top .hero-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 28px !important;
+    width: 100% !important;
+  }
+
+  #top .hero-copy,
+  #top .hero-visual {
     grid-column: 1 / -1 !important;
     width: 100% !important;
     min-width: 0 !important;
   }
-  #top .max-w-7xl > .grid > div:last-child > div {
-    width: 100%;
-    max-width: 520px;
-    margin-inline: auto;
+
+  #top .hero-visual > div {
+    width: 100% !important;
+    max-width: 520px !important;
+    margin-inline: auto !important;
+  }
+
+  #top .hero-copy .flex {
+    max-width: 100%;
   }
 }
 
@@ -214,67 +261,9 @@ input[type="range"]::-moz-range-thumb {
     padding-left: 16px !important;
     padding-right: 16px !important;
   }
+
   #top h1 {
     max-width: 100%;
     overflow-wrap: anywhere;
-  }
-  #top .max-w-7xl > .grid {
-    gap: 28px !important;
-  }
-}
-
-/* ---------------- hosted asset safety ----------------
-   GitHub Pages serves the app from /Swachh-AI/. Using root-absolute
-   asset paths breaks images after deployment; the React source uses
-   document-relative paths instead. */
-
-/* Mobile browsers can expose a large CSS viewport when zoomed.
-   Pointer/coarse detection keeps the experience single-column regardless
-   of that reported width. */
-@media (pointer: coarse) {
-  #top .max-w-7xl {
-    width: 100% !important;
-    max-width: none !important;
-    padding-left: 16px !important;
-    padding-right: 16px !important;
-  }
-
-  #top .max-w-7xl > .grid {
-    display: grid !important;
-    grid-template-columns: minmax(0, 1fr) !important;
-    gap: 28px !important;
-    width: 100% !important;
-  }
-
-  #top .max-w-7xl > .grid > div {
-    grid-column: 1 / -1 !important;
-    width: 100% !important;
-    min-width: 0 !important;
-  }
-
-  #top .max-w-7xl > .grid > div:last-child > div {
-    width: 100% !important;
-    max-width: 520px !important;
-    margin-inline: auto !important;
-  }
-}
-
-
-/* emergency viewport normalization */
-html, body, #root {
-  width: 100% !important;
-  min-width: 100% !important;
-  max-width: 100% !important;
-  margin: 0 !important;
-  padding: 0 !important;
-}
-#root, #root > div {
-  width: 100% !important;
-  min-width: 0 !important;
-}
-@media (max-width: 1279px), (orientation: portrait) {
-  #top, #top > div, #top .max-w-7xl {
-    width: 100% !important;
-    max-width: none !important;
   }
 }
