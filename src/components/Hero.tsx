@@ -40,10 +40,10 @@ export default function Hero() {
       <div className="pointer-events-none absolute top-1/3 -right-48 w-[520px] h-[520px] rounded-full bg-emer/10 blur-[150px]" />
       <div className="dotgrid absolute inset-0 opacity-60 [mask-image:radial-gradient(ellipse_75%_65%_at_50%_35%,black,transparent)]" />
 
-      <div className="relative mx-auto w-full max-w-7xl px-5 md:px-8 pt-28 md:pt-36 pb-10 md:pb-16">
-        <div className="flex flex-col gap-12 items-stretch w-full">
+      <div className="relative mx-auto max-w-7xl px-5 md:px-8 pt-28 md:pt-36 pb-10 md:pb-16">
+        <div className="hero-grid grid lg:grid-cols-12 gap-12 lg:gap-8 items-center">
           {/* ------------------------- copy ------------------------- */}
-          <div className="w-full min-w-0">
+          <div className="hero-copy lg:col-span-7">
             <motion.div
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
@@ -150,7 +150,7 @@ export default function Hero() {
           </div>
 
           {/* ------------------------- visual ------------------------- */}
-          <div className="relative w-full min-w-0">
+          <div className="hero-visual lg:col-span-5 relative">
             <motion.div
               initial={{ opacity: 0, scale: 0.94, y: 30 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -161,7 +161,7 @@ export default function Hero() {
               <div className="relative rounded-[28px] border border-line bg-moss p-2 shadow-[0_40px_120px_-40px_rgba(0,0,0,0.8)]">
                 <div className="relative overflow-hidden rounded-[20px] aspect-[4/5]">
                   <motion.img
-                    src="/Swachh-AI/images/hero-collage.jpg"
+                    src="images/hero-collage.jpg"
                     alt="Recycled objects overgrown with living green vines — waste returning to nature"
                     className="h-full w-full object-cover"
                     style={{ y: imgY, scale: 1.12 }}
