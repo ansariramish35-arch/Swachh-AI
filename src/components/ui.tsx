@@ -139,9 +139,9 @@ export function Marquee({
   className?: string;
 }) {
   return (
-    <div className={`overflow-hidden ${className}`} data-marquee-outer>
+    <div className={`overflow-hidden ${className}`}>
       <div
-        className={`flex w-max items-center marquee-inner ${fast ? "animate-marquee-fast" : "animate-marquee"} ${reverse ? "[animation-direction:reverse]" : ""}`}
+        className={`flex w-max items-center ${fast ? "animate-marquee-fast" : "animate-marquee"} ${reverse ? "[animation-direction:reverse]" : ""}`}
       >
         <div className="flex items-center shrink-0">{children}</div>
         <div className="flex items-center shrink-0" aria-hidden="true">
